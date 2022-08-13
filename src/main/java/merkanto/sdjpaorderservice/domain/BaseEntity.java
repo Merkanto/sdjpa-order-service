@@ -1,9 +1,10 @@
 package merkanto.sdjpaorderservice.domain;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
+
+import java.sql.Timestamp;
+import java.util.Objects;
 
 @MappedSuperclass
 public abstract class BaseEntity {
@@ -11,6 +12,10 @@ public abstract class BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @CreationTimestamp
+    @Column(updatable = false)
+    private Timestamp createdDate;
 
     public Long getId() {
         return id;
@@ -20,18 +25,29 @@ public abstract class BaseEntity {
         this.id = id;
     }
 
+    public Timestamp getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Timestamp createdDate) {
+        this.createdDate = createdDate;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof BaseEntity)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
 
         BaseEntity that = (BaseEntity) o;
 
-        return getId() != null ? getId().equals(that.getId()) : that.getId() == null;
+        if (!Objects.equals(id, that.id)) return false;
+        return Objects.equals(createdDate, that.createdDate);
     }
 
     @Override
     public int hashCode() {
-        return getId() != null ? getId().hashCode() : 0;
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (createdDate != null ? createdDate.hashCode() : 0);
+        return result;
     }
 }
