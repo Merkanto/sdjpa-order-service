@@ -1,9 +1,6 @@
 package merkanto.sdjpaorderservice.repositories;
 
-import merkanto.sdjpaorderservice.domain.OrderHeader;
-import merkanto.sdjpaorderservice.domain.OrderLine;
-import merkanto.sdjpaorderservice.domain.Product;
-import merkanto.sdjpaorderservice.domain.ProductStatus;
+import merkanto.sdjpaorderservice.domain.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +8,9 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import java.util.Set;
+
+import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @ActiveProfiles("local")
@@ -21,6 +20,9 @@ class OrderHeaderRepositoryTest {
 
     @Autowired
     OrderHeaderRepository orderHeaderRepository;
+
+    @Autowired
+    CustomerRepository customerRepository;
 
     @Autowired
     ProductRepository productRepository;
@@ -38,7 +40,11 @@ class OrderHeaderRepositoryTest {
     @Test
     void testSaveOrderWithLine() {
         OrderHeader orderHeader = new OrderHeader();
-        orderHeader.setCustomer("New Customer");
+        Customer customer = new Customer();
+        customer.setCustomerName("New Customer");
+        Customer savedCustomer = customerRepository.save(customer);
+
+        orderHeader.setCustomer(savedCustomer);
 
         OrderLine orderLine = new OrderLine();
         orderLine.setQuantityOrdered(5);
@@ -64,7 +70,11 @@ class OrderHeaderRepositoryTest {
     @Test
     void testSaveOrder() {
         OrderHeader orderHeader = new OrderHeader();
-        orderHeader.setCustomer("New Customer");
+        Customer customer = new Customer();
+        customer.setCustomerName("New Customer");
+        Customer savedCustomer = customerRepository.save(customer);
+
+        orderHeader.setCustomer(savedCustomer);
         OrderHeader savedOrder = orderHeaderRepository.save(orderHeader);
 
         assertNotNull(savedOrder);

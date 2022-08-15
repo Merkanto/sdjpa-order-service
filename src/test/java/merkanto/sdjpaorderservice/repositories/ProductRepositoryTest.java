@@ -9,7 +9,6 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 
 import static org.junit.jupiter.api.Assertions.*;
-
 @ActiveProfiles("local")
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -24,12 +23,12 @@ class ProductRepositoryTest {
 
         assertNotNull(product);
         assertNotNull(product.getCategories());
+
     }
 
     @Test
     void testSaveProduct() {
         Product product = new Product();
-
         product.setDescription("My Product");
         product.setProductStatus(ProductStatus.NEW);
 
@@ -42,5 +41,4 @@ class ProductRepositoryTest {
         assertNotNull(fetchedProduct.getCreatedDate());
         assertNotNull(fetchedProduct.getLastModifiedDate());
     }
-
 }
