@@ -2,7 +2,6 @@ package merkanto.sdjpaorderservice.domain;
 
 import jakarta.persistence.*;
 
-import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -15,8 +14,8 @@ public class Product extends BaseEntity {
 
     @ManyToMany
     @JoinTable(name = "product_category",
-        joinColumns = @JoinColumn (name = "product_id"),
-        inverseJoinColumns = @JoinColumn (name = "category_id"))
+            joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id"))
     private Set<Category> categories;
 
     public String getDescription() {
