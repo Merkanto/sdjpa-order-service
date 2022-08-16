@@ -1,7 +1,7 @@
 package merkanto.sdjpaorderservice.bootstrap;
 
-import jakarta.transaction.Transactional;
-import merkanto.sdjpaorderservice.domain.OrderHeader;
+import merkanto.sdjpaorderservice.domain.Customer;
+import merkanto.sdjpaorderservice.repositories.CustomerRepository;
 import merkanto.sdjpaorderservice.repositories.OrderHeaderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -15,6 +15,9 @@ public class Bootstrap implements CommandLineRunner {
 
     @Autowired
     BootstrapOrderService bootstrapOrderService;
+
+    @Autowired
+    CustomerRepository customerRepository;
 
 //    @Transactional
 //    public void readOrderData() {
@@ -32,5 +35,13 @@ public class Bootstrap implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         bootstrapOrderService.readOrderData();
+
+        Customer customer = new Customer();
+        customer.setCustomerName("Testing Version");
+        Customer savedCustomer = customerRepository.save(customer);
+
+        System.out.println("Version is: " + savedCustomer.getVersion());
+
+        customerRepository.deleteById(savedCustomer.getId());
     }
 }
