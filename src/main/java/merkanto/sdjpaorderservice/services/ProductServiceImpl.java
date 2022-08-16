@@ -1,5 +1,6 @@
 package merkanto.sdjpaorderservice.services;
 
+import jakarta.transaction.Transactional;
 import merkanto.sdjpaorderservice.domain.Product;
 import merkanto.sdjpaorderservice.repositories.ProductRepository;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,7 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.saveAndFlush(product);
     }
 
+    @Transactional
     @Override
     public Product updateQOH(Long id, Integer quantityOnHand) {
         Product product = productRepository.findById(id)
